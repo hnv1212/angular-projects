@@ -1,4 +1,6 @@
 <div>
-    <donut-card [donut]="donuts[1]"></donut-card>
-
+    <!-- Note: asterisk(*) equal template -->
+    <div *ngIf="donuts.lengthf">
+        <donut-card [donut]="donuts[1]"></donut-card>
+    </div>
 </div>
