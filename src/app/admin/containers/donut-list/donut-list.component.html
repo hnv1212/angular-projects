@@ -1,7 +1,7 @@
 <div>
-    <ng-container *ngIf="donuts.length; then cards; else nothing"></ng-container>
-
-    <ng-template #cards>
+    <!-- ng-container: for grouping elements -->
+    <!-- ng-template: for reuse elements -->
+    <ng-template [ngIf]="donuts.length" [ngIfElse]="nothing">
         <donut-card [donut]="donuts[0]"></donut-card>
         <donut-card [donut]="donuts[1]"></donut-card>
     </ng-template>
