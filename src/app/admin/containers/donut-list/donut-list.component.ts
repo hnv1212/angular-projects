@@ -23,6 +23,7 @@ export class DonutListComponent implements OnInit {
         name: 'donut 2',
         icon: '',
         price: 123,
+        promo: 'limited',
         description: 'djflkfd',
       },
     ];
