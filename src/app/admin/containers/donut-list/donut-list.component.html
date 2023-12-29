@@ -4,6 +4,12 @@
             *ngFor="let donut of donuts; trackBy: trackById" 
             [donut]="donut">
         </donut-card>
+
+        <div *ngFor="let donut of donuts; index as i; odd as o; even as e">
+            {{i}}
+            {{o}}
+            {{e}}
+        </div>
     </ng-container>
 
     <ng-template #nothing>
