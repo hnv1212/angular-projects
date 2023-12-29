@@ -16,17 +16,20 @@ export class DonutListComponent implements OnInit {
         name: 'donut 1',
         icon: '',
         price: 119,
-        description: 'djflkfd kdjflkdsj'
+        description: 'djflkfd kdjflkdsj',
       },
       {
         id: 'a1bsu2',
         name: 'donut 2',
         icon: '',
         price: 123,
-        description: 'djflkfd'
-      }
+        description: 'djflkfd',
+      },
     ];
+  }
 
-
+  trackById(index: number, value: Donut) {
+    console.log(index, value);
+    return value.id;
   }
 }
