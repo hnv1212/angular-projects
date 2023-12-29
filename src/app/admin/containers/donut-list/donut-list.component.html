@@ -1,10 +1,11 @@
 <div>
-    <!-- ng-container: for grouping elements -->
-    <!-- ng-template: for reuse elements -->
-    <ng-template [ngIf]="donuts.length" [ngIfElse]="nothing">
-        <donut-card [donut]="donuts[0]"></donut-card>
-        <donut-card [donut]="donuts[1]"></donut-card>
-    </ng-template>
+    <ng-container *ngIf="donuts.length; else nothing">
+        <donut-card 
+            *ngFor="let donut of donuts" 
+            [donut]="donut">
+        </donut-card>
+    </ng-container>
+
     <ng-template #nothing>
         <p>No donuts here...</p>
     </ng-template>
