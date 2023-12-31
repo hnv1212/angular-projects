@@ -3,13 +3,10 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'donut-form',
   template: `
-    <p>
-      donut-form works!
-    </p>
+    <form class="donut-form" #form="ngForm">
+      <pre>{{ form.value | json }}</pre>
+    </form>
   `,
-  styles: [
-  ]
+  styles: [],
 })
-export class DonutFormComponent {
-
-}
+export class DonutFormComponent {}
