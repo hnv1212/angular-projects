@@ -6,12 +6,12 @@ import { Component } from '@angular/core';
     <form class="donut-form" #form="ngForm">
       <label>
         <span>Name</span>
-        <input type="text" name="name" class="input" ngModel />
+        <input type="text" name="name" class="input" required ngModel />
       </label>
 
       <label>
         <span>Icon</span>
-        <select name="icon" class="input input--select" ngModel>
+        <select name="icon" class="input input--select" required ngModel>
           <option *ngFor="let icon of icons" [ngValue]="icon" ]>
             {{ icon }}
           </option>
@@ -20,7 +20,7 @@ import { Component } from '@angular/core';
 
       <label>
         <span>Price</span>
-        <input type="number" name="price" class="input" ngModel />
+        <input type="number" name="price" class="input" required ngModel />
       </label>
 
       <div class="donut-form-radios">
@@ -48,7 +48,7 @@ import { Component } from '@angular/core';
         ></textarea>
       </label>
 
-      <pre>{{ form.value | json }}</pre>
+      <pre>{{ form.form.status | json }}</pre>
     </form>
   `,
   styles: [
