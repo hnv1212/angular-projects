@@ -14,6 +14,7 @@ import { NgForm } from '@angular/forms';
           minlength="5"
           required
           ngModel
+          [ngModelOptions]="{ updateOn: 'submit' }"
           #name="ngModel"
         />
         <ng-container *ngIf="name.invalid && name.touched">
