@@ -99,11 +99,13 @@ import { NgForm } from '@angular/forms';
         </ng-container>
       </label>
 
-      <button type="submit" class="btn btn--green" [disabled]="form.invalid">
-        Create
+      <button type="submit" class="btn btn--green">Create</button>
+      <button type="button" class="btn btn--gray" (click)="form.resetForm()">
+        Reset Form
       </button>
 
-      <pre>{{ form.form.status | json }}</pre>
+      {{ form.submitted }}
+      <pre>{{ form.value | json }}</pre>
     </form>
   `,
   styles: [
