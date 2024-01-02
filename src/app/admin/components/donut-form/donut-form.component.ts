@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'donut-form',
   template: `
-    <form class="donut-form" #form="ngForm">
+    <form class="donut-form" #form="ngForm" (ngSubmit)="handleSubmit(form)">
       <label>
         <span>Name</span>
         <input
@@ -64,6 +65,8 @@ import { Component } from '@angular/core';
         ></textarea>
       </label>
 
+      <button type="submit" class="btn btn--green">Create</button>
+
       <pre>{{ form.form.status | json }}</pre>
     </form>
   `,
@@ -103,4 +106,8 @@ export class DonutFormComponent {
     'vanilla-sundae',
     'zesty-lemon',
   ];
+
+  handleSubmit(form: NgForm) {
+    console.log(form.value);
+  }
 }
