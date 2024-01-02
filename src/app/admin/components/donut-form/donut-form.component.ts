@@ -16,10 +16,10 @@ import { Component } from '@angular/core';
           #name="ngModel"
         />
         <ng-container *ngIf="name.invalid && name.touched">
-          <div class="donut-form-error" *ngIf="name.errors?.minlength">
+          <div class="donut-form-error" *ngIf="name.errors?.['minlength']">
             Minimum length of a name is 5!
           </div>
-          <div class="donut-form-error" *ngIf="name.errors?.required">
+          <div class="donut-form-error" *ngIf="name.errors?.['required']">
             Name is required!
           </div>
         </ng-container>
