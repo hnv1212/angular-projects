@@ -104,7 +104,9 @@ import { NgForm } from '@angular/forms';
         Reset Form
       </button>
 
-      {{ form.submitted }}
+      <div class="donut-form-working" *ngIf="form.valid && form.submitted">
+        Working...
+      </div>
       <pre>{{ form.value | json }}</pre>
     </form>
   `,
@@ -125,6 +127,11 @@ import { NgForm } from '@angular/forms';
               margin-bottom: 0;
             }
           }
+        }
+        &-working {
+          font-size: 12px;
+          font-style: italic;
+          margin: 10px 0;
         }
         &-error {
           font-size: 12px;
