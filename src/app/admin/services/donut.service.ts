@@ -44,5 +44,18 @@ export class DonutService {
       description: 'Delicious lucious lemon.',
     },
   ];
+
   constructor() {}
+
+  read() {
+    return this.donuts;
+  }
+
+  readOne(id: string) {
+    const donut = this.read().find((d: Donut) => d.id === id);
+
+    if (donut) return donut;
+
+    return { name: '', icon: '', price: 0, description: '' };
+  }
 }
