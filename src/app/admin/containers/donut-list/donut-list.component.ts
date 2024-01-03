@@ -5,7 +5,15 @@ import { DonutService } from '../../services/donut.service';
 @Component({
   selector: 'donut-list',
   templateUrl: './donut-list.component.html',
-  styles: [],
+  styles: [
+    `
+      .donut-list {
+        &-actions {
+          margin-bottom: 10px;
+        }
+      }
+    `,
+  ],
 })
 export class DonutListComponent implements OnInit {
   donuts!: Donut[];
