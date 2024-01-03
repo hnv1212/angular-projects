@@ -35,7 +35,7 @@ export class DonutService {
     }).append('Api-Token', '1234abcd');
 
     const options = {
-      headers
+      headers,
     };
 
     return this.http.get<Donut[]>(`/api/donuts`, options).pipe(
@@ -49,7 +49,7 @@ export class DonutService {
     );
   }
 
-  readOne(id: string) {
+  readOne(id: string | null) {
     return this.read().pipe(
       map((donuts) => {
         const donut = donuts.find((d: Donut) => d.id === id);

@@ -17,6 +17,10 @@ export const routes: Routes = [
     component: DonutSingleComponent,
   },
   {
+    path: 'donuts/:id',
+    component: DonutSingleComponent,
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'donuts',
