@@ -26,14 +26,14 @@ export class DonutSingleComponent implements OnInit {
   }
 
   onCreate(donut: Donut) {
-    this.donutService.create(donut);
+    this.donutService.create(donut).subscribe();
   }
 
   onUpdate(donut: Donut) {
-    this.donutService.update(donut);
+    this.donutService.update(donut).subscribe();
   }
 
   onDelete(donut: Donut) {
-    this.donutService.delete(donut);
+    this.donutService.delete(donut).subscribe();
   }
 }
