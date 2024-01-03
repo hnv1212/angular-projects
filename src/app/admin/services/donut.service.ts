@@ -71,4 +71,8 @@ export class DonutService {
       return d;
     });
   }
+
+  delete(payload: Donut) {
+    this.donuts = this.donuts.filter((d: Donut) => d.id !== payload.id);
+  }
 }
