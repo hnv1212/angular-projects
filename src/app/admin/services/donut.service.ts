@@ -62,4 +62,13 @@ export class DonutService {
   create(payload: Donut) {
     this.donuts = [...this.donuts, payload];
   }
+
+  update(payload: Donut) {
+    this.donuts = this.donuts.map((d: Donut) => {
+      if (d.id === payload.id) {
+        return payload;
+      }
+      return d;
+    });
+  }
 }
