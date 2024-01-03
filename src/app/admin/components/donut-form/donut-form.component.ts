@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Donut } from '../../models/donut.model';
 
@@ -14,7 +14,7 @@ import { Donut } from '../../models/donut.model';
           class="input"
           minlength="5"
           required
-          ngModel
+          [ngModel]="donut.name"
           [ngModelOptions]="{ updateOn: 'submit' }"
           #name="ngModel"
         />
@@ -34,7 +34,7 @@ import { Donut } from '../../models/donut.model';
           name="icon"
           class="input input--select"
           required
-          ngModel
+          [ngModel]="donut.icon"
           #icon="ngModel"
         >
           <option *ngFor="let icon of icons" [ngValue]="icon" ]>
@@ -55,7 +55,7 @@ import { Donut } from '../../models/donut.model';
           name="price"
           class="input"
           required
-          ngModel
+          [ngModel]="donut.price"
           #price="ngModel"
         />
         <ng-container *ngIf="price.invalid && price.touched">
@@ -68,15 +68,15 @@ import { Donut } from '../../models/donut.model';
       <div class="donut-form-radios">
         <p class="donut-form-radios-label">Promo:</p>
         <label>
-          <input type="radio" name="promo" [value]="undefined" ngModel />
+          <input type="radio" name="promo" [value]="undefined" [ngModel]="donut.promo" />
           <span>None</span>
         </label>
         <label>
-          <input type="radio" name="promo" value="new" ngModel />
+          <input type="radio" name="promo" value="new" [ngModel]="donut.promo" />
           <span>New</span>
         </label>
         <label>
-          <input type="radio" name="promo" value="limited" ngModel />
+          <input type="radio" name="promo" value="limited" [ngModel]="donut.promo" />
           <span>Limited</span>
         </label>
       </div>
@@ -87,7 +87,7 @@ import { Donut } from '../../models/donut.model';
           name="description"
           class="input input--textarea"
           required
-          ngModel
+          [ngModel]="donut.description"
           #description="ngModel"
         ></textarea>
         <ng-container *ngIf="description.invalid && description.touched">
@@ -143,6 +143,7 @@ import { Donut } from '../../models/donut.model';
   ],
 })
 export class DonutFormComponent {
+  @Input() donut!: Donut;
   @Output() create = new EventEmitter<Donut>();
 
   icons: string[] = [
