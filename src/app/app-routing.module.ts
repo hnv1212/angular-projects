@@ -15,7 +15,17 @@ const routes: Routes = [
         path: 'donut',
         component: DonutSingleComponent,
       },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'donuts',
+      },
     ],
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'admin',
   },
 ];
 
