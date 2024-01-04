@@ -15,10 +15,12 @@ export const routes: Routes = [
   {
     path: 'donuts/new',
     component: DonutSingleComponent,
+    data: { isEdit: false },
   },
   {
     path: 'donuts/:id',
     component: DonutSingleComponent,
+    data: { isEdit: true },
   },
   {
     path: '',
