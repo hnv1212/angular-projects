@@ -5,6 +5,7 @@ import {
   Component,
   ContentChild,
   ContentChildren,
+  ElementRef,
   EventEmitter,
   Output,
   QueryList,
@@ -17,13 +18,16 @@ import { AuthMessageComponent } from './auth-message.component';
 
 @Component({
   selector: 'auth-form',
+  styles: [`
+  .email { border-color: #9f72e6; }
+`],
   template: `
     <div>
       <form (ngSubmit)="onSubmit(form.value)" #form="ngForm">
         <ng-content select="h3"></ng-content>
         <label>
           Email address
-          <input type="email" name="email" ngModel />
+          <input type="email" name="email" ngModel #email/>
         </label>
         <label>
           Password
@@ -33,10 +37,6 @@ import { AuthMessageComponent } from './auth-message.component';
         <auth-message
           [style.display]="showMessage ? 'inherit' : 'none'"
         ></auth-message>
-        <auth-message [style.display]="showMessage ? 'inherit' : 'none'">
-        </auth-message>
-        <auth-message [style.display]="showMessage ? 'inherit' : 'none'">
-        </auth-message>
         <ng-content select="button"></ng-content>
       </form>
     </div>
@@ -44,6 +44,8 @@ import { AuthMessageComponent } from './auth-message.component';
 })
 export class AuthFormComponent implements AfterContentInit, AfterViewInit {
   showMessage!: boolean;
+
+  @ViewChild('email') email!: ElementRef
 
   @ViewChildren(AuthMessageComponent) message!: QueryList<AuthMessageComponent>;
 
@@ -55,6 +57,9 @@ export class AuthFormComponent implements AfterContentInit, AfterViewInit {
   constructor(private cd: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
+    this.email.nativeElement.setAttribute('placeholder', 'Enter your email address')
+    this.email.nativeElement.classList.add('email')
+    this.email.nativeElement.focus();
     if (this.message) {
       this.message.forEach((m) => {
         m.days = 30;
