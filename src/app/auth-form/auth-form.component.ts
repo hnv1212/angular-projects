@@ -1,6 +1,7 @@
 import {
   AfterContentInit,
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ContentChild,
   ContentChildren,
@@ -8,6 +9,7 @@ import {
   Output,
   QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { User } from './auth-form.interface';
 import { AuthRememberComponent } from './auth-remember.component';
@@ -31,6 +33,10 @@ import { AuthMessageComponent } from './auth-message.component';
         <auth-message
           [style.display]="showMessage ? 'inherit' : 'none'"
         ></auth-message>
+        <auth-message [style.display]="showMessage ? 'inherit' : 'none'">
+        </auth-message>
+        <auth-message [style.display]="showMessage ? 'inherit' : 'none'">
+        </auth-message>
         <ng-content select="button"></ng-content>
       </form>
     </div>
@@ -39,22 +45,25 @@ import { AuthMessageComponent } from './auth-message.component';
 export class AuthFormComponent implements AfterContentInit, AfterViewInit {
   showMessage!: boolean;
 
-  @ViewChild(AuthMessageComponent) message!: AuthMessageComponent;
+  @ViewChildren(AuthMessageComponent) message!: QueryList<AuthMessageComponent>;
 
   @ContentChildren(AuthRememberComponent)
   remember!: QueryList<AuthRememberComponent>;
 
   @Output() submitted: EventEmitter<User> = new EventEmitter<User>();
 
+  constructor(private cd: ChangeDetectorRef) {}
+
   ngAfterViewInit(): void {
-    // This will show error because should not change data after view init, change in the after..content instead
-    // this.message.days = 30;
+    if (this.message) {
+      this.message.forEach((m) => {
+        m.days = 30;
+      });
+      this.cd.detectChanges();
+    }
   }
 
   ngAfterContentInit(): void {
-    if (this.message) {
-      this.message.days = 30;
-    }
     if (this.remember) {
       this.remember.forEach((item) => {
         item.checked.subscribe(
