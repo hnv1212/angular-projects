@@ -29,7 +29,7 @@ import { AuthMessageComponent } from './auth-message.component';
   template: `
     <div>
       <form (ngSubmit)="onSubmit(form.value)" #form="ngForm">
-        <ng-content select="h3"></ng-content>
+        <h3>{{ title }}</h3>
         <label>
           Email address
           <input type="email" name="email" ngModel #email />
@@ -38,57 +38,17 @@ import { AuthMessageComponent } from './auth-message.component';
           Password
           <input type="password" name="password" ngModel />
         </label>
-        <ng-content select="auth-remember"></ng-content>
-        <auth-message
-          [style.display]="showMessage ? 'inherit' : 'none'"
-        ></auth-message>
-        <ng-content select="button"></ng-content>
+        <button type="submit">
+          {{ title }}
+        </button>
       </form>
     </div>
   `,
 })
-export class AuthFormComponent implements AfterContentInit, AfterViewInit {
-  showMessage!: boolean;
-
-  @ViewChild('email') email!: ElementRef;
-
-  @ViewChildren(AuthMessageComponent) message!: QueryList<AuthMessageComponent>;
-
-  @ContentChildren(AuthRememberComponent)
-  remember!: QueryList<AuthRememberComponent>;
+export class AuthFormComponent {
+  title = 'Login';
 
   @Output() submitted: EventEmitter<User> = new EventEmitter<User>();
-
-  constructor(private cd: ChangeDetectorRef, private renderer: Renderer2) {}
-
-  ngAfterViewInit(): void {
-    this.renderer.setAttribute(
-      this.email.nativeElement,
-      'placeholder',
-      'Enter your email address'
-    );
-    this.renderer.addClass(this.email.nativeElement, 'email');
-    this.renderer.selectRootElement('email').focus();
-    // this.email.nativeElement.setAttribute('placeholder', 'Enter your email address')
-    // this.email.nativeElement.classList.add('email')
-    // this.email.nativeElement.focus();
-    if (this.message) {
-      this.message.forEach((m) => {
-        m.days = 30;
-      });
-      this.cd.detectChanges();
-    }
-  }
-
-  ngAfterContentInit(): void {
-    if (this.remember) {
-      this.remember.forEach((item) => {
-        item.checked.subscribe(
-          (checked: boolean) => (this.showMessage = checked)
-        );
-      });
-    }
-  }
 
   onSubmit(value: User) {
     this.submitted.emit(value);
