@@ -14,9 +14,17 @@ import { AuthFormComponent } from './auth-form/auth-form.component';
   selector: 'app-root',
   template: `
     <div>
-      <ng-container [ngTemplateOutlet]="tmpl"></ng-container>
-      <template #tmpl> Todd Motto : England, UK </template>
+      <ng-container
+        [ngTemplateOutlet]="tmpl"
+        [ngTemplateOutletContext]="ctx"
+      ></ng-container>
+      <template #tmpl let-name let-location="location"> {{ name }} : {{ location }} </template>
     </div>
   `,
 })
-export class AppComponent {}
+export class AppComponent {
+  ctx = {
+    $implicit: 'Todd Motto',
+    location: 'England, UK',
+  };
+}
