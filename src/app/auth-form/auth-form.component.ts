@@ -9,6 +9,7 @@ import {
   EventEmitter,
   Output,
   QueryList,
+  Renderer2,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
@@ -18,16 +19,20 @@ import { AuthMessageComponent } from './auth-message.component';
 
 @Component({
   selector: 'auth-form',
-  styles: [`
-  .email { border-color: #9f72e6; }
-`],
+  styles: [
+    `
+      .email {
+        border-color: #9f72e6;
+      }
+    `,
+  ],
   template: `
     <div>
       <form (ngSubmit)="onSubmit(form.value)" #form="ngForm">
         <ng-content select="h3"></ng-content>
         <label>
           Email address
-          <input type="email" name="email" ngModel #email/>
+          <input type="email" name="email" ngModel #email />
         </label>
         <label>
           Password
@@ -45,7 +50,7 @@ import { AuthMessageComponent } from './auth-message.component';
 export class AuthFormComponent implements AfterContentInit, AfterViewInit {
   showMessage!: boolean;
 
-  @ViewChild('email') email!: ElementRef
+  @ViewChild('email') email!: ElementRef;
 
   @ViewChildren(AuthMessageComponent) message!: QueryList<AuthMessageComponent>;
 
@@ -54,12 +59,19 @@ export class AuthFormComponent implements AfterContentInit, AfterViewInit {
 
   @Output() submitted: EventEmitter<User> = new EventEmitter<User>();
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cd: ChangeDetectorRef, private renderer: Renderer2) {}
 
   ngAfterViewInit(): void {
-    this.email.nativeElement.setAttribute('placeholder', 'Enter your email address')
-    this.email.nativeElement.classList.add('email')
-    this.email.nativeElement.focus();
+    this.renderer.setAttribute(
+      this.email.nativeElement,
+      'placeholder',
+      'Enter your email address'
+    );
+    this.renderer.addClass(this.email.nativeElement, 'email');
+    this.renderer.selectRootElement('email').focus();
+    // this.email.nativeElement.setAttribute('placeholder', 'Enter your email address')
+    // this.email.nativeElement.classList.add('email')
+    // this.email.nativeElement.focus();
     if (this.message) {
       this.message.forEach((m) => {
         m.days = 30;
