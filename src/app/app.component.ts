@@ -14,21 +14,9 @@ import { AuthFormComponent } from './auth-form/auth-form.component';
   selector: 'app-root',
   template: `
     <div>
-      <div #entry></div>
-      <template #tmpl let-name let-location="location">
-        {{ name }} : {{ location }}
-      </template>
+      <ng-container [ngTemplateOutlet]="tmpl"></ng-container>
+      <template #tmpl> Todd Motto : England, UK </template>
     </div>
   `,
 })
-export class AppComponent implements AfterContentInit {
-  @ViewChild('tmpl') tmpl: TemplateRef<any>;
-  @ViewChild('entry', { read: ViewContainerRef }) entry: ViewContainerRef;
-
-  ngAfterContentInit(): void {
-    this.entry.createEmbeddedView(this.tmpl, {
-      $implicit: 'Todd Motto',
-      location: 'England, UK',
-    });
-  }
-}
+export class AppComponent {}
