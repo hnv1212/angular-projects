@@ -7,8 +7,6 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { User } from './auth-form/auth-form.interface';
-import { AuthFormComponent } from './auth-form/auth-form.component';
 
 @Component({
   selector: 'app-root',
