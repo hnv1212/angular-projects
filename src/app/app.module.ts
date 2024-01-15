@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { MyForDirective } from './my-for/my-for.directive';
+import { FilesizePipe } from './filesize.pipe';
 
 @NgModule({
-  declarations: [AppComponent, MyForDirective],
+  declarations: [AppComponent, FilesizePipe],
   imports: [BrowserModule],
   providers: [],
   bootstrap: [AppComponent],
