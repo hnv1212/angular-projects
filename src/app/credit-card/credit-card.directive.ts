@@ -1,9 +1,16 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostBinding,
+  HostListener,
+} from '@angular/core';
 
 @Directive({
   selector: '[credit-card]',
 })
 export class CreditCardDirective {
+  @HostBinding('style.border') border!: string;
+
   constructor(private element: ElementRef) {
     console.log('element: ', this.element);
   }
@@ -25,5 +32,11 @@ export class CreditCardDirective {
     }
 
     input.value = numbers.join(' ');
+
+    this.border = '';
+    // check if trimmed contain only digits or not
+    if (/[^\d]+/.test(trimmed)) {
+      this.border = '1px solid red';
+    }
   }
 }
