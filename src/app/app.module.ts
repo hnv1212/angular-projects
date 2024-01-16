@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { FilesizePipe } from './filesize.pipe';
+import { StockInventoryModule } from './stock-inventory/stock-inventory.module';
 
 @NgModule({
-  declarations: [AppComponent, FilesizePipe],
-  imports: [BrowserModule],
+  declarations: [AppComponent],
+  imports: [BrowserModule, StockInventoryModule],
   providers: [],
   bootstrap: [AppComponent],
 })
