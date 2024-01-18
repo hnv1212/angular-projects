@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -54,8 +55,8 @@ export class StockInventoryComponent implements OnInit {
       store: this.fb.group({
         branch: [
           this.fb.control(''),
-          Validators.required,
-          StockValidators.checkBranch,
+          [Validators.required, StockValidators.checkBranch],
+          [this.validateBranch.bind(this)],
         ],
         code: ['', Validators.required],
       }),
@@ -122,5 +123,11 @@ export class StockInventoryComponent implements OnInit {
 
   onSubmit() {
     console.log(this.form.value);
+  }
+
+  validateBranch(control: AbstractControl) {
+    return this.stockService
+      .checkBranchId(control.value)
+      .map((response: Boolean) => (response ? null : { unknownBranch: true }));
   }
 }

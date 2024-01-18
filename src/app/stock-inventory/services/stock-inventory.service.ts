@@ -20,4 +20,14 @@ export class StockInventoryService {
       .map((response: Response) => response.json())
       .catch((error: any) => Observable.throw(error.json()));
   }
+
+  checkBranchId(id: string): Observable<boolean> {
+    let search = new URLSearchParams();
+    search.set('id', id);
+    return this.http
+      .get('/api/branches', { search })
+      .map((response: Response) => response.json())
+      .map((response: any[]) => !!response.length)
+      .catchError((error: any) => Observable.throw(error.json()));
+  }
 }
