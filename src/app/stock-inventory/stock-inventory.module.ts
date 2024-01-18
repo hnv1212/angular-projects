@@ -7,6 +7,7 @@ import { StockProductsComponent } from './components/stock-products/stock-produc
 import { StockSelectorComponent } from './components/stock-selector/stock-selector.component';
 import { StockInventoryService } from './services/stock-inventory.service';
 import { HttpModule } from '@angular/http';
+import { StockCounterComponent } from './components/stock-counter/stock-counter.component';
 
 @NgModule({
   declarations: [
@@ -14,13 +15,16 @@ import { HttpModule } from '@angular/http';
     StockBranchComponent,
     StockProductsComponent,
     StockSelectorComponent,
+    StockCounterComponent,
   ],
   imports: [
     CommonModule, 
     ReactiveFormsModule, 
     // HttpModule
   ],
-  providers: [StockInventoryService],
+  providers: [
+    // StockInventoryService
+  ],
   exports: [StockInventoryComponent],
 })
 export class StockInventoryModule {}
