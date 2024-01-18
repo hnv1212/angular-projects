@@ -49,18 +49,21 @@ export class StockInventoryComponent implements OnInit {
   productMap: Map<number, Product>;
   total: number;
 
-  form = this.fb.group({
-    store: this.fb.group({
-      branch: [
-        this.fb.control(''),
-        Validators.required,
-        StockValidators.checkBranch,
-      ],
-      code: ['', Validators.required],
-    }),
-    selector: this.createStock({}),
-    stock: this.fb.array([]),
-  });
+  form = this.fb.group(
+    {
+      store: this.fb.group({
+        branch: [
+          this.fb.control(''),
+          Validators.required,
+          StockValidators.checkBranch,
+        ],
+        code: ['', Validators.required],
+      }),
+      selector: this.createStock({}),
+      stock: this.fb.array([]),
+    },
+    { validator: StockValidators.checkStockExists }
+  );
 
   constructor(
     private fb: FormBuilder,
