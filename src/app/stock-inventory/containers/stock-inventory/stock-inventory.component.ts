@@ -9,6 +9,7 @@ import {
 import { Item, Product } from '../../models/product.interface';
 import { StockInventoryService } from '../../services/stock-inventory.service';
 import { Observable } from 'rxjs';
+import { StockValidators } from './stock-inventory.validators';
 
 @Component({
   selector: 'stock-inventory',
@@ -50,7 +51,11 @@ export class StockInventoryComponent implements OnInit {
 
   form = this.fb.group({
     store: this.fb.group({
-      branch: [this.fb.control(''), Validators.required],
+      branch: [
+        this.fb.control(''),
+        Validators.required,
+        StockValidators.checkBranch,
+      ],
       code: ['', Validators.required],
     }),
     selector: this.createStock({}),
