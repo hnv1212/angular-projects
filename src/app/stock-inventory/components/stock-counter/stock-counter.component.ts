@@ -1,7 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+const COUNTER_CONTROL_ACCESSOR = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => StockCounterComponent),
+  multi: true,
+};
 
 @Component({
   selector: 'stock-counter',
+  providers: [COUNTER_CONTROL_ACCESSOR],
   template: `
     <div class="stock-counter">
       <div>
@@ -29,7 +37,24 @@ import { Component, Input } from '@angular/core';
   `,
   styleUrls: ['./stock-counter.component.scss'],
 })
-export class StockCounterComponent {
+export class StockCounterComponent implements ControlValueAccessor {
+  private onModelChange: Function;
+  private onTouch: Function;
+
+  writeValue(value: any): void {
+    this.value = value || 0;
+  }
+  registerOnChange(fn: any): void {
+    this.onModelChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    throw new Error('Method not implemented.');
+  }
+
   @Input() step: number = 10;
   @Input() min: number = 10;
   @Input() max: number = 1000;
@@ -39,12 +64,16 @@ export class StockCounterComponent {
   increment() {
     if (this.value < this.max) {
       this.value = this.value + this.step;
+      this.onModelChange(this.value);
     }
+    this.onTouch();
   }
 
   decrement() {
     if (this.value > this.min) {
       this.value = this.value - this.step;
+      this.onModelChange(this.value);
     }
+    this.onTouch();
   }
 }
