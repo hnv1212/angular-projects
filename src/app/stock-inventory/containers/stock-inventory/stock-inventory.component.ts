@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Item, Product } from '../../models/product.interface';
 import { StockInventoryService } from '../../services/stock-inventory.service';
 import { Observable } from 'rxjs';
@@ -44,8 +50,8 @@ export class StockInventoryComponent implements OnInit {
 
   form = this.fb.group({
     store: this.fb.group({
-      branch: this.fb.control(''),
-      code: '',
+      branch: [this.fb.control(''), Validators.required],
+      code: ['', Validators.required],
     }),
     selector: this.createStock({}),
     stock: this.fb.array([]),
