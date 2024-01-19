@@ -1,12 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { StockInventoryModule } from './stock-inventory/stock-inventory.module';
+import { MailModule } from './mail/mail.module';
+import { RouterModule, Routes } from '@angular/router';
+
+export const ROUTES: Routes = [
+  {
+    path: '*',
+    redirectTo: 'folder/inbox',
+  },
+];
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, StockInventoryModule],
+  imports: [
+    BrowserModule,
+    // HttpModule,
+    MailModule,
+    RouterModule.forRoot(ROUTES, { enableTracing: true }),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
