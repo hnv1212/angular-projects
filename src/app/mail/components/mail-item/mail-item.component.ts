@@ -5,7 +5,11 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'mail-item',
   template: `
-    <a class="mail-item" (click)="navigateToMessage()">
+    <a
+      class="mail-item"
+      [routerLink]="['', { outlets: { pane: ['message', message.id] } }]"
+      routerLinkActive="active"
+    >
       <h3>
         {{ message.from }}
         <span>{{ message.timestamp | date : 'shortTime' }}</span>
@@ -18,12 +22,12 @@ import { Router } from '@angular/router';
 export class MailItemComponent {
   @Input() message!: Mail;
 
-  constructor(private router: Router) {}
+  // constructor(private router: Router) {}
 
-  navigateToMessage() {
-    this.router.navigate([
-      '',
-      { outlets: { pane: ['message', this.message.id] } },
-    ]);
-  }
+  // navigateToMessage() {
+  //   this.router.navigate([
+  //     '',
+  //     { outlets: { pane: ['message', this.message.id] } },
+  //   ]);
+  // }
 }

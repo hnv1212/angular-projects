@@ -12,8 +12,20 @@ import { NavigationEnd, Router } from '@angular/router';
       </header>
       <div class="app__content">
         <nav>
-          <a routerLink="folder/inbox" routerLinkActive="active">Inbox</a>
-          <a routerLink="folder/trash" routerLinkActive="active">Trash</a>
+          <a
+            [routerLink]="[
+              { outlets: { primary: 'folder/inbox', pane: null } }
+            ]"
+            routerLinkActive="active"
+            >Inbox</a
+          >
+          <a
+            [routerLink]="[
+              { outlets: { primary: 'folder/trash', pane: null } }
+            ]"
+            routerLinkActive="active"
+            >Trash</a
+          >
         </nav>
         <mail-app></mail-app>
       </div>
@@ -28,7 +40,7 @@ export class AppComponent implements OnInit {
       // .filter((event) => event instanceof NavigationEnd)
       .subscribe((event) => {
         // console.log(event);
-        if(event instanceof NavigationEnd) {
+        if (event instanceof NavigationEnd) {
           // console.log("🚀 ~ AppComponent ~ this.router.events.subscribe ~ event:", event)
         }
       });
