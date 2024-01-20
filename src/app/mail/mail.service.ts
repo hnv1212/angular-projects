@@ -8,6 +8,12 @@ export class MailService {
   constructor(private http: HttpClient) {}
 
   getFolder(folder: string): Observable<Mail[]> {
-    return this.http.get<Mail[]>(`http://localhost:3000/messages?folder=${folder}`)
+    return this.http.get<Mail[]>(
+      `http://localhost:3000/messages?folder=${folder}`
+    );
+  }
+
+  getMessage(id: string): Observable<Mail> {
+    return this.http.get<Mail>(`http://localhost:3000/messages/${id}`);
   }
 }
