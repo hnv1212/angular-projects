@@ -4,7 +4,11 @@ import { Mail } from '../../models/mail.interface';
 @Component({
   selector: 'mail-item',
   template: `
-    <a class="mail-item">
+    <a
+      class="mail-item"
+      [routerLink]="['', { outlets: { pane: ['message', message.id] } }]"
+      routerLinkActive="active"
+    >
       <h3>
         {{ message.from }}
         <span>{{ message.timestamp | date : 'shortTime' }}</span>
