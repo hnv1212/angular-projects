@@ -9,11 +9,13 @@ import { Component } from '@angular/core';
         (deactivate)="onDeactivate($event)"
       ></router-outlet>
     </div>
+    <div class="mail">
+      <router-outlet name="pane"></router-outlet>
+    </div>
   `,
   styleUrls: ['./mail-app.component.scss'],
 })
 export class MailAppComponent {
-  
   onDeactivate($event: any) {
     console.log('🚀 ~ MailAppComponent ~ onDeactivate ~ $event:', $event);
   }

@@ -8,6 +8,7 @@ import { MailItemComponent } from './components/mail-item/mail-item.component';
 import { RouterModule, Routes } from '@angular/router';
 import { MailService } from './mail.service';
 import { MailFolderResolve } from './containers/mail-folder/mail-folder.resolve';
+import { MailViewComponent } from './components/mail-view/mail-view.component';
 
 export const ROUTES: Routes = [
   {
@@ -15,10 +16,20 @@ export const ROUTES: Routes = [
     component: MailFolderComponent,
     resolve: { messages: MailFolderResolve },
   },
+  {
+    path: 'message/:id',
+    component: MailViewComponent,
+    outlet: 'pane'
+  },
 ];
 
 @NgModule({
-  declarations: [MailFolderComponent, MailAppComponent, MailItemComponent],
+  declarations: [
+    MailFolderComponent,
+    MailAppComponent,
+    MailItemComponent,
+    MailViewComponent,
+  ],
   imports: [CommonModule, HttpClientModule, RouterModule.forChild(ROUTES)],
   providers: [MailService, MailFolderResolve],
   exports: [MailAppComponent],
