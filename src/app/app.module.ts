@@ -8,8 +8,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 export const ROUTES: Routes = [
   {
-    path: '*',
-    redirectTo: 'folder/inbox',
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((x) => x.DashboardModule),
+  },
+  {
+    path: '**',
+    redirectTo: 'mail/folder/inbox',
   },
 ];
 
