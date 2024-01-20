@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
   selector: 'mail-app',
   template: `
     <div class="mail">
+      <h1>Activated Parent!</h1>
       <router-outlet
         (activate)="onActivate($event)"
         (deactivate)="onDeactivate($event)"
