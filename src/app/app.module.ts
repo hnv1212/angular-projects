@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
+// import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { MailModule } from './mail/mail.module';
@@ -19,7 +19,7 @@ export const ROUTES: Routes = [
     BrowserModule,
     // HttpModule,
     MailModule,
-    RouterModule.forRoot(ROUTES, { enableTracing: true }),
+    RouterModule.forRoot(ROUTES),
   ],
   providers: [],
   bootstrap: [AppComponent],
