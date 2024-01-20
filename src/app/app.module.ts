@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { MailModule } from './mail/mail.module';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 export const ROUTES: Routes = [
   {
@@ -25,6 +25,7 @@ export const ROUTES: Routes = [
     // HttpModule,
     MailModule,
     RouterModule.forRoot(ROUTES),
+    // RouterModule.forRoot(ROUTES, { preloadingStrategy: PreloadAllModules }),
   ],
   providers: [],
   bootstrap: [AppComponent],
