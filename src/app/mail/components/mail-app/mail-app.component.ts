@@ -4,9 +4,21 @@ import { Component } from '@angular/core';
   selector: 'mail-app',
   template: `
     <div class="mail">
-      <router-outlet></router-outlet>
+      <router-outlet
+        (activate)="onActivate($event)"
+        (deactivate)="onDeactivate($event)"
+      ></router-outlet>
     </div>
   `,
   styleUrls: ['./mail-app.component.scss'],
 })
-export class MailAppComponent {}
+export class MailAppComponent {
+  
+  onDeactivate($event: any) {
+    console.log('🚀 ~ MailAppComponent ~ onDeactivate ~ $event:', $event);
+  }
+
+  onActivate($event: any) {
+    console.log('🚀 ~ MailAppComponent ~ onActivate ~ $event:', $event);
+  }
+}

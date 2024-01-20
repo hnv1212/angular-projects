@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
       .subscribe((event) => {
         // console.log(event);
         if(event instanceof NavigationEnd) {
-          console.log("🚀 ~ AppComponent ~ this.router.events.subscribe ~ event:", event)
+          // console.log("🚀 ~ AppComponent ~ this.router.events.subscribe ~ event:", event)
         }
       });
   }
