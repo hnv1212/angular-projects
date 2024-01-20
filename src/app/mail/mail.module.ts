@@ -12,6 +12,7 @@ import { MailViewComponent } from './components/mail-view/mail-view.component';
 import { MailViewResolve } from './components/mail-view/mail-view.resolve';
 import { AuthModule } from '../auth/auth.module';
 import { AuthGuard } from '../auth/auth.guard';
+import { MailViewGuard } from './components/mail-view/mail-view.guard';
 
 export const ROUTES: Routes = [
   {
@@ -28,6 +29,7 @@ export const ROUTES: Routes = [
         path: 'message/:id',
         component: MailViewComponent,
         outlet: 'pane',
+        canDeactivate: [MailViewGuard],
         resolve: { message: MailViewResolve },
       },
     ],
@@ -41,8 +43,13 @@ export const ROUTES: Routes = [
     MailItemComponent,
     MailViewComponent,
   ],
-  imports: [CommonModule, HttpClientModule, RouterModule.forChild(ROUTES), AuthModule],
-  providers: [MailService, MailFolderResolve, MailViewResolve],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    RouterModule.forChild(ROUTES),
+    AuthModule,
+  ],
+  providers: [MailService, MailFolderResolve, MailViewResolve, MailViewGuard],
   exports: [MailAppComponent],
 })
 export class MailModule {}
