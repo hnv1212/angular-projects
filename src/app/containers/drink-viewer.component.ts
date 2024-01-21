@@ -35,7 +35,7 @@ export abstract class DrinkService {
 export class DrinkViewerComponent implements OnInit {
   item$: Observable<Drink[]>;
 
-  constructor(private foodService: FoodService) {}
+  constructor(private foodService: DrinkService) {}
 
   ngOnInit(): void {
     this.item$ = this.foodService.getDrinks();
