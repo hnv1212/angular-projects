@@ -17,10 +17,10 @@ import { API_TOKEN } from './token';
   ],
   imports: [BrowserModule, HttpClientModule],
   providers: [
-    // {
-    //   provide: API_TOKEN,
-    //   useValue: 'http://localhost:3000/pizzas',
-    // },
+    {
+      provide: API_TOKEN,
+      useValue: 'http://localhost:3000/pizzas',
+    },
   ],
   bootstrap: [AppComponent],
 })

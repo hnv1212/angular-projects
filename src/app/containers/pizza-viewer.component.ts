@@ -8,13 +8,16 @@ interface Pizza {
   price: number;
 }
 
-export function PizzaFactory(http) {
-  return new FoodService(http, 'http://localhost:3000/pizzas')
-}
+// export function PizzaFactory(http) {
+//   return new FoodService(http, 'http://localhost:3000/pizzas')
+// }
 
 @Component({
   selector: 'pizza-viewer',
-  providers: [{ provide: FoodService, useFactory: PizzaFactory, deps: [HttpClient] }],
+  providers: [
+    // { provide: FoodService, useFactory: PizzaFactory, deps: [HttpClient] },
+    FoodService
+  ],
   template: `
     <div>
       <div *ngFor="let item of items$ | async">
@@ -30,6 +33,6 @@ export class PizzaViewerComponent implements OnInit {
   constructor(private foodService: FoodService) {}
 
   ngOnInit() {
-    this.items$ = this.foodService.getFood();
+    this.items$ = this.foodService.getPizzas();
   }
 }

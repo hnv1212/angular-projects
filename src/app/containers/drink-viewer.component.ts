@@ -8,13 +8,21 @@ interface Drink {
   price: number;
 }
 
-export function DrinkFactory(http) {
-  return new FoodService(http, 'http://localhost:3000/drinks')
+// export function DrinkFactory(http) {
+//   return new FoodService(http, 'http://localhost:3000/drinks')
+// }
+
+export abstract class DrinkService {
+  getDrinks: () => Observable<Drink[]>;
 }
 
 @Component({
   selector: 'drink-viewer',
-  providers: [{ provide: FoodService, useFactory: DrinkFactory, deps: [HttpClient] }],
+  providers: [
+    // { provide: FoodService, useFactory: DrinkFactory, deps: [HttpClient] },
+    FoodService,
+    { provide: DrinkService, useExisting: FoodService },
+  ],
   template: `
     <div>
       <div *ngFor="let item of item$ | async">
@@ -30,6 +38,6 @@ export class DrinkViewerComponent implements OnInit {
   constructor(private foodService: FoodService) {}
 
   ngOnInit(): void {
-    this.item$ = this.foodService.getFood();
+    this.item$ = this.foodService.getDrinks();
   }
 }
