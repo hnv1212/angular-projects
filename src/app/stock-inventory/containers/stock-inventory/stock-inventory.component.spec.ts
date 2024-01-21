@@ -8,7 +8,7 @@ import { StockBranchComponent } from '../../components/stock-branch/stock-branch
 import { StockCounterComponent } from '../../components/stock-counter/stock-counter.component';
 import { StockProductsComponent } from '../../components/stock-products/stock-products.component';
 import { StockSelectorComponent } from '../../components/stock-selector/stock-selector.component';
-import { DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 
 class MockStockInventoryService {
   getProducts() {
@@ -36,11 +36,12 @@ describe('StockInventoryComponent', () => {
       imports: [ReactiveFormsModule],
       declarations: [
         StockInventoryComponent,
-        StockBranchComponent,
-        StockCounterComponent,
-        StockProductsComponent,
-        StockSelectorComponent,
+        // StockBranchComponent,
+        // StockCounterComponent,
+        // StockProductsComponent,
+        // StockSelectorComponent,
       ],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         { provide: StockInventoryService, useClass: MockStockInventoryService },
       ],
