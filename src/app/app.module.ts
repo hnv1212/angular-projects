@@ -1,24 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { FizeSizePipe } from './file-size/fize-size.pipe';
-import { StockCounterComponent } from './stock-inventory/components/stock-counter/stock-counter.component';
-import { StockInventoryComponent } from './stock-inventory/containers/stock-inventory/stock-inventory.component';
-import { StockInventoryModule } from './stock-inventory/stock-inventory.module';
-import { CreditCardDirective } from './credit-card/credit-card.directive';
+import { DrinkViewerComponent } from './containers/drink-viewer.component';
+import { PizzaViewerComponent } from './containers/pizza-viewer.component';
+import { SideViewerComponent } from './containers/side-viewer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FizeSizePipe,
-    CreditCardDirective
+    DrinkViewerComponent,
+    PizzaViewerComponent,
+    SideViewerComponent,
   ],
-  imports: [
-    BrowserModule,
-    StockInventoryModule
+  imports: [BrowserModule, HttpClientModule],
+  providers: [
+    {
+      provide: 'api',
+      useValue: 'http://localhost:3000/pizzas',
+    },
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
