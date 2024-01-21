@@ -9,7 +9,7 @@ export class FoodService {
     private http: HttpClient,
     @Inject(API_TOKEN) private api: string
   ) {
-    console.log('Ultimate Angular');
+    console.log(this.api);
   }
 
   getFood(): Observable<any> {
