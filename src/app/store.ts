@@ -1,4 +1,10 @@
-import { BehaviorSubject, Observable, distinctUntilChanged, pluck } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  distinctUntilChanged,
+  map,
+  pluck,
+} from 'rxjs';
 import { State } from './state';
 
 const state: State = {
@@ -13,8 +19,8 @@ export class Store {
     return this.subject.value;
   }
 
-  select<T>(name: string): Observable<T> {
-    return this.store.pipe<T>(pluck(name));
+  select<T>(name: any): Observable<T> {
+    return this.store.pipe(pluck(name)) as Observable<T>;
   }
 
   set(name: string, state: any) {
