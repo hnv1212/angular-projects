@@ -1,29 +1,29 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from 'src/app/store';
-import { SongsService } from '../../services/songs.service';
+import { Song, SongsService } from '../../services/songs.service';
 
 @Component({
   selector: 'songs-playlist',
   template: `
     <div class="songs">
-      <div *ngFor="let item of playlist$ | async">
-        {{ item.artist }}
-        {{ item.track }}
-      </div>
+      <songs-list [list]="playlist$ | async">Playlist</songs-list>
     </div>
   `,
   styles: [],
 })
 export class SongsPlaylistComponent implements OnInit, OnDestroy {
-  playlist$: Observable<any[]>;
+  playlist$: Observable<Song[]>;
   subscription: Subscription;
 
   constructor(private store: Store, private songsService: SongsService) {}
 
   ngOnInit(): void {
     this.playlist$ = this.store.select('playlist');
-    console.log("🚀 ~ SongsPlaylistComponent ~ ngOnInit ~ playlist$:", this.playlist$)
+    // console.log(
+    //   '🚀 ~ SongsPlaylistComponent ~ ngOnInit ~ playlist$:',
+    //   this.playlist$
+    // );
 
     this.subscription = this.songsService.getPlaylist$.subscribe();
   }

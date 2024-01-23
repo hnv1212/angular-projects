@@ -8,7 +8,7 @@ import {
 import { State } from './state';
 
 const state: State = {
-  playlist: undefined as any,
+  playlist: [],
 };
 
 export class Store {

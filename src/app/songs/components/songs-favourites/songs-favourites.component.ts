@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from 'src/app/store';
-import { SongsService } from '../../services/songs.service';
-import { Observable } from 'rxjs';
+import { Song, SongsService } from '../../services/songs.service';
+import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'songs-favourites',
   template: `
     <div class="songs">
-      <div *ngFor="let item of favourites$ | async">
-        {{ item.artist }}
-        {{ item.track }}
-      </div>
+    <songs-list
+        [list]="favourites$ | async">
+        Favourites
+      </songs-list>
     </div>
   `,
   styles: [],
@@ -23,7 +23,12 @@ export class SongsFavouritesComponent implements OnInit {
   ngOnInit(): void {
     this.favourites$ = this.store
       .select('playlist')
-      .filter(Boolean)
-      .map((playlist) => playlist.filter((track) => track.favourite));
+      .pipe(
+        map((playlist) =>
+          (playlist as Array<Song>).filter((track: Song) => track.favourite)
+        )
+      );
+      // .filter(Boolean)
+      // .map((playlist) => playlist.filter((track) => track.favourite));
   }
 }
