@@ -7,7 +7,7 @@ import { Song, SongsService } from '../../services/songs.service';
   selector: 'songs-playlist',
   template: `
     <div class="songs">
-      <songs-list [list]="playlist$ | async">Playlist</songs-list>
+      <songs-list [list]="playlist$ | async" (toggle)="onToggle($event)">Playlist</songs-list>
     </div>
   `,
   styles: [],
@@ -26,6 +26,10 @@ export class SongsPlaylistComponent implements OnInit, OnDestroy {
     // );
 
     this.subscription = this.songsService.getPlaylist$.subscribe();
+  }
+
+  onToggle(event) {
+    this.songsService.toggle(event)
   }
 
   ngOnDestroy(): void {
