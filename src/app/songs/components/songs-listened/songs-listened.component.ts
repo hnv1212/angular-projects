@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from 'src/app/store';
 import { SongsService } from '../../services/songs.service';
-import { Observable } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 
 @Component({
   selector: 'songs-listened',
@@ -13,19 +13,17 @@ import { Observable } from 'rxjs';
       </div>
     </div>
   `,
-  styles: [
-  ]
+  styles: [],
 })
-export class SongsListenedComponent implements OnInit{
-
+export class SongsListenedComponent implements OnInit {
   listened$: Observable<any[]>;
-  
-  constructor(
-    private store: Store,
-    private songsService: SongsService
-  ) {}
+
+  constructor(private store: Store, private songsService: SongsService) {}
 
   ngOnInit(): void {
-    this.listened$ = this.store.select('playlist')
+    this.listened$ = this.store
+      .select('playlist')
+      .filter(Boolean)
+      .map((playlist) => playlist.filter((track) => track.listened));
   }
 }

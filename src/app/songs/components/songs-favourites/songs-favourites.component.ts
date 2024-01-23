@@ -5,24 +5,25 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'songs-favourites',
-  template: ` <div class="songs">
-  <div *ngFor="let item of favourites$ | async">
-    {{ item.artist }}
-    {{ item.track }}
-  </div>
-</div> `,
+  template: `
+    <div class="songs">
+      <div *ngFor="let item of favourites$ | async">
+        {{ item.artist }}
+        {{ item.track }}
+      </div>
+    </div>
+  `,
   styles: [],
 })
-export class SongsFavouritesComponent implements OnInit{
-
+export class SongsFavouritesComponent implements OnInit {
   favourites$: Observable<any[]>;
-  
-  constructor(
-    private store: Store,
-    private songsService: SongsService
-  ) {}
+
+  constructor(private store: Store, private songsService: SongsService) {}
 
   ngOnInit(): void {
-    this.favourites$ = this.store.select('playlist')
+    this.favourites$ = this.store
+      .select('playlist')
+      .filter(Boolean)
+      .map((playlist) => playlist.filter((track) => track.favourite));
   }
 }
