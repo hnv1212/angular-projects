@@ -7,13 +7,19 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthModule } from 'src/auth/auth.module';
 import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { AppNavComponent } from './components/app-nav/app-nav.component';
+import { HealthModule } from 'src/health/health.module';
 
 // routes
 export const ROUTES: Routes = [];
 
 @NgModule({
   declarations: [AppComponent, AppHeaderComponent, AppNavComponent],
-  imports: [BrowserModule, RouterModule.forRoot(ROUTES), AuthModule],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot(ROUTES),
+    AuthModule,
+    HealthModule,
+  ],
   providers: [Store],
   bootstrap: [AppComponent],
 })
