@@ -10,7 +10,13 @@ import { AppNavComponent } from './components/app-nav/app-nav.component';
 import { HealthModule } from 'src/health/health.module';
 
 // routes
-export const ROUTES: Routes = [];
+export const ROUTES: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'schedule',
+  },
+];
 
 @NgModule({
   declarations: [AppComponent, AppHeaderComponent, AppNavComponent],
