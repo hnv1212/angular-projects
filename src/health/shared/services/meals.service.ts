@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from 'store';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AuthService } from 'src/auth/shared/services/auth/auth.service';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import 'rxjs/add/operator/do';
 
 export interface Meal {
@@ -35,5 +35,17 @@ export class MealsService {
 
   removeMeal(key: string) {
     return this.db.list(`meals/${this.uid}`).remove(key);
+  }
+
+  getMeal(key: string): any {
+    if (!key) {
+      return of({});
+    }
+    return this.store
+      .select<Meal[]>('meals')
+      .filter(Boolean)
+      .map((meals) => {
+        meals.find((meal: Meal) => meal.$key === key);
+      });
   }
 }
