@@ -15,8 +15,9 @@ export interface Meal {
 
 @Injectable()
 export class MealsService {
-  meals$: Observable<Meal[]> = this.db.list(`meals/${this.uid}`).do(next => this.store.set('meals', next));
-
+  meals$: Observable<Meal[]> = this.db
+    .list(`meals/${this.uid}`)
+    .do((next) => this.store.set('meals', next));
 
   constructor(
     private store: Store,
@@ -26,5 +27,9 @@ export class MealsService {
 
   get uid() {
     return this.authService.user.uid;
+  }
+
+  addMeal(meal: Meal) {
+    return this.db.list(`meals/${this.uid}`).push(meal);
   }
 }
