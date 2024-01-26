@@ -17,6 +17,7 @@ export interface State {
   schedule?: ScheduleItem[];
   date?: Date;
   selected: any;
+  list: any;
   [key: string]: any;
 }
 
@@ -26,6 +27,7 @@ const state: State = {
   workouts: undefined,
   schedule: undefined,
   selected: undefined,
+  list: undefined,
   date: undefined,
 };
 

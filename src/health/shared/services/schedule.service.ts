@@ -60,8 +60,10 @@ export class ScheduleService {
       return mapped;
     })
     .do((next: any) => this.store.set('schedule', next));
-
   selected$ = this.section$.do((next: any) => this.store.set('selected', next));
+  list$ = this.section$
+    .map((value: any) => this.store.value[value.type])
+    .do((next: any) => this.store.set('list', next));
 
   constructor(
     private store: Store,
@@ -78,7 +80,7 @@ export class ScheduleService {
   }
 
   selectSection(event: any) {
-    this.section$.next(event)
+    this.section$.next(event);
   }
 
   private getSchedule(startAt: number, endAt: number) {
