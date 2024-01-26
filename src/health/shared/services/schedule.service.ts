@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 import { Store } from 'store';
@@ -26,6 +26,7 @@ export interface ScheduleList {
 @Injectable()
 export class ScheduleService {
   private date$ = new BehaviorSubject(new Date());
+  private section$ = new Subject();
 
   schedule$: Observable<ScheduleItem[]> = this.date$
     .do((next: any) => this.store.set('date', next))
@@ -60,6 +61,8 @@ export class ScheduleService {
     })
     .do((next: any) => this.store.set('schedule', next));
 
+  selected$ = this.section$.do((next: any) => this.store.set('selected', next));
+
   constructor(
     private store: Store,
     private authService: AuthService,
@@ -72,6 +75,10 @@ export class ScheduleService {
 
   updateDate(date: Date) {
     this.date$.next(date);
+  }
+
+  selectSection(event: any) {
+    this.section$.next(event)
   }
 
   private getSchedule(startAt: number, endAt: number) {

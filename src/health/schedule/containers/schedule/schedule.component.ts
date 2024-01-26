@@ -15,6 +15,7 @@ import { Store } from 'store';
         [date]="date$ | async"
         [items]="schedule$ | async"
         (change)="changeDate($event)"
+        (select)="changeSection($event)"
       ></schedule-calendar>
     </div>
   `,
@@ -29,11 +30,19 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.date$ = this.store.select('date');
 
-    this.subscription = [this.scheduleService.schedule$.subscribe()];
+    this.subscription = [
+      this.scheduleService.schedule$.subscribe(),
+      this.scheduleService.selected$.subscribe(),
+    ];
   }
 
   changeDate(date: Date) {
     this.scheduleService.updateDate(date);
+  }
+
+  changeSection(event: any) {
+    console.log("🚀 ~ ScheduleComponent ~ changeSection ~ event:", event)
+    this.scheduleService.selectSection(event)
   }
 
   ngOnDestroy(): void {
