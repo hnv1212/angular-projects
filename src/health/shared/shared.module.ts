@@ -4,6 +4,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { RouterModule } from '@angular/router';
 import { MealsService } from './services/meals.service';
 import { ListItemComponent } from './components/list-item/list-item.component';
+import { WorkoutsService } from './services/workouts.service';
 
 @NgModule({
   imports: [CommonModule, RouterModule, AngularFireModule],
@@ -14,7 +15,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
-      providers: [MealsService],
+      providers: [MealsService, WorkoutsService],
     };
   }
 }
