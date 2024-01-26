@@ -8,7 +8,10 @@ import { Store } from 'store';
   styleUrls: ['./schedule.component.scss'],
   template: `
     <div class="schedule">
-      <schedule-calendar [date]="date$ | async"></schedule-calendar>
+      <schedule-calendar
+        [date]="date$ | async"
+        (change)="changeDate($event)"
+      ></schedule-calendar>
     </div>
   `,
 })
@@ -22,6 +25,11 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.date$ = this.store.select('date');
     this.subscription = [this.scheduleService.schedule$.subscribe()];
   }
+
+  changeDate(date: Date) {
+    this.scheduleService.updateDate(date);
+  }
+
   ngOnInit(): void {
     this.subscription.forEach((sub) => sub.unsubscribe());
   }
