@@ -1,20 +1,32 @@
-import { Component } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { RegisterRequest } from '../../types/registerRequest.interface';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-    selector: 'auth-register',
-    templateUrl: './register.component.html',
+  selector: 'auth-register',
+  templateUrl: './register.component.html',
 })
 export class RegisterComponent {
-    form = this.fb.group({
-        email: ['', Validators.required],
-        username: ['', Validators.required],
-        password: ['', Validators.required],
-    })
+  error: string | null = null;
+  form = this.fb.group({
+    email: ['', Validators.required],
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+  });
 
-    constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
-    onSubmit(): void {
-        
-    }
+  onSubmit(): void {
+    this.authService.register(this.form.value as RegisterRequest).subscribe({
+      next: (currentUser) => {
+        this.authService.setToken(currentUser);
+        this.authService.setCurrentUser(currentUser);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.error = err.error.join(', ')
+      },
+    });
+  }
 }
