@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { BoardsService } from 'src/app/shared/services/boards.service';
 import { BoardService } from '../services/board.service';
 import { Observable, filter } from 'rxjs';
 import { BoardInterface } from 'src/app/shared/types/board.interface';
+import { SocketService } from 'src/app/shared/services/socket.service';
+import { SocketEventsEnum } from 'src/app/shared/types/socketEvents.enum';
 
 @Component({
   selector: 'board',
@@ -11,23 +13,37 @@ import { BoardInterface } from 'src/app/shared/types/board.interface';
 })
 export class BoardComponent implements OnInit {
   boardId: string;
-  board$: Observable<BoardInterface>
+  board$: Observable<BoardInterface>;
 
   constructor(
     private boardsService: BoardsService,
     private route: ActivatedRoute,
-    private boardService: BoardService
+    private boardService: BoardService,
+    private socketService: SocketService,
+    private router: Router
   ) {
     const boardId = this.route.snapshot.paramMap.get('boardId');
     if (!boardId) {
       throw new Error('Cannot get boardId from url');
     }
     this.boardId = boardId;
-    this.board$ = this.boardService.board$.pipe(filter(Boolean))
+    this.board$ = this.boardService.board$.pipe(filter(Boolean));
   }
 
   ngOnInit(): void {
+    this.socketService.emit(SocketEventsEnum.boardsJoin, {
+      boardId: this.boardId,
+    });
     this.fetchData();
+    this.initializerListeners();
+  }
+
+  initializerListeners(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.boardService.leaveBoard(this.boardId);
+      }
+    });
   }
 
   fetchData(): void {
