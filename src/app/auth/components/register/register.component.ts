@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { RegisterRequestInterface } from '../../types/registerRequest.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { SocketService } from 'src/app/shared/services/socket.service';
 
 @Component({
   selector: 'auth-register',
@@ -20,7 +21,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private socketService: SocketService
   ) {}
 
   onSubmit(): void {
@@ -29,6 +31,7 @@ export class RegisterComponent {
       .subscribe({
         next: (currentUser) => {
           this.authService.setToken(currentUser);
+          this.socketService.setupSocketConnection(currentUser);
           this.authService.setCurrentUser(currentUser);
           this.error = null;
           this.router.navigateByUrl('/');

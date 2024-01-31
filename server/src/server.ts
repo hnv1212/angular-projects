@@ -3,11 +3,15 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import jwt from 'jsonwebtoken';
 
 import * as usersController from './controllers/users';
 import * as boardsController from './controllers/boards';
 import authMiddleware from './middlewares/auth';
 import { SocketEventsEnum } from './types/socketEvents.enum';
+import { secretOrPrivateKey } from './config';
+import UserModel from './models/user';
+import { Socket } from './types/socket.interface';
 
 const app = express();
 const httpServer = createServer(app);
@@ -36,13 +40,29 @@ app.get('/api/boards', authMiddleware, boardsController.getBoards);
 app.post('/api/boards', authMiddleware, boardsController.createBoards);
 app.get('/api/boards/:id', authMiddleware, boardsController.getBoard);
 
-io.on('connection', (socket) => {
+io.use(async (socket: Socket, next) => {
+  try {
+    const token = (socket.handshake.auth.token as string) ?? '';
+    const data = jwt.verify(token.split(' ')[1], secretOrPrivateKey) as {
+      id: string;
+      email: string;
+    };
+    const user = await UserModel.findById(data.id);
+    if (!user) {
+      return next(new Error('Authentication socket.io error!'));
+    }
+    socket.user = user;
+    next();
+  } catch (error) {
+    next(new Error('Authentication socket.io error!'));
+  }
+}).on('connection', (socket) => {
   socket.on(SocketEventsEnum.boardsJoin, (data) => {
-    boardsController.joinBoard(io, socket, data)
-  })
+    boardsController.joinBoard(io, socket, data);
+  });
   socket.on(SocketEventsEnum.boardsLeave, (data) => {
-    boardsController.leaveBoard(io, socket, data)
-  })
+    boardsController.leaveBoard(io, socket, data);
+  });
 });
 
 mongoose.connect('mongodb://localhost:27017/eltrello').then(() => {
