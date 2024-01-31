@@ -29,6 +29,7 @@ app.get('/api/user', authMiddleware, usersController.currentUser);
 
 app.get('/api/boards', authMiddleware, boardsController.getBoards);
 app.post('/api/boards', authMiddleware, boardsController.createBoards);
+app.get('/api/boards/:id', authMiddleware, boardsController.getBoard);
 
 io.on('connection', () => {
   console.log('connect socket.io');
