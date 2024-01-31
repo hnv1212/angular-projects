@@ -6,7 +6,7 @@ import { CurrentUserInterface } from '../types/currentUser.interface';
 import { environment } from 'src/environments/environment';
 import { RegisterRequestInterface } from '../types/registerRequest.interface';
 import { LoginRequestInterface } from '../types/loginRequest.interface';
-import { currentUser } from 'src/server/src/controllers/users';
+import { currentUser } from 'server/src/controllers/users';
 
 @Injectable()
 export class AuthService {
