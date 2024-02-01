@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { BoardsService } from 'src/app/shared/services/boards.service';
 import { BoardService } from '../services/board.service';
-import { Observable, filter } from 'rxjs';
+import { Observable, combineLatest, filter, map } from 'rxjs';
 import { BoardInterface } from 'src/app/shared/types/board.interface';
 import { SocketService } from 'src/app/shared/services/socket.service';
 import { SocketEventsEnum } from 'src/app/shared/types/socketEvents.enum';
+import { ColumnsService } from 'src/app/shared/services/columns.service';
+import { ColumnInterface } from 'src/app/shared/types/column.interface';
 
 @Component({
   selector: 'board',
@@ -13,21 +15,33 @@ import { SocketEventsEnum } from 'src/app/shared/types/socketEvents.enum';
 })
 export class BoardComponent implements OnInit {
   boardId: string;
-  board$: Observable<BoardInterface>;
+  data$: Observable<{
+    board: BoardInterface;
+    columns: ColumnInterface[];
+  }>;
 
   constructor(
     private boardsService: BoardsService,
     private route: ActivatedRoute,
     private boardService: BoardService,
     private socketService: SocketService,
-    private router: Router
+    private router: Router,
+    private columnsService: ColumnsService
   ) {
     const boardId = this.route.snapshot.paramMap.get('boardId');
     if (!boardId) {
       throw new Error('Cannot get boardId from url');
     }
     this.boardId = boardId;
-    this.board$ = this.boardService.board$.pipe(filter(Boolean));
+    this.data$ = combineLatest([
+      this.boardService.board$.pipe(filter(Boolean)),
+      this.boardService.columns$,
+    ]).pipe(
+      map(([board, columns]) => ({
+        board,
+        columns,
+      }))
+    );
   }
 
   ngOnInit(): void {
@@ -49,6 +63,9 @@ export class BoardComponent implements OnInit {
   fetchData(): void {
     this.boardsService.getBoard(this.boardId).subscribe((board) => {
       this.boardService.setBoard(board);
+    });
+    this.columnsService.getColumns(this.boardId).subscribe((columns) => {
+      this.boardService.setColumns(columns);
     });
   }
 }
