@@ -75,7 +75,7 @@ io.use(async (socket: Socket, next) => {
     columnsController.createColumn(io, socket, data);
   });
   socket.on(SocketEventsEnum.tasksCreate, (data) => {
-    tasksController.createColumn(io, socket, data);
+    tasksController.createTask(io, socket, data);
   });
 });
 
