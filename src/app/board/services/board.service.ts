@@ -32,7 +32,12 @@ export class BoardService {
   }
 
   addColumn(column: ColumnInterface): void {
-    const updatedColumn = [...this.columns$.getValue(), column];
-    this.columns$.next(updatedColumn);
+    const updatedColumns = [...this.columns$.getValue(), column];
+    this.columns$.next(updatedColumns);
+  }
+
+  addTask(task: TaskInterface): void {
+    const updatedTasks = [...this.tasks$.getValue(), task];
+    this.tasks$.next(updatedTasks);
   }
 }

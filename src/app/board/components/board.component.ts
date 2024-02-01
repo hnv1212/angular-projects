@@ -11,6 +11,7 @@ import { ColumnInterface } from 'src/app/shared/types/column.interface';
 import { ColumnInputInterface } from 'src/app/shared/types/columnInput.interface';
 import { TaskInterface } from 'src/app/shared/types/task.interface';
 import { TasksService } from 'src/app/shared/services/tasks.service';
+import { TaskInputInterface } from 'src/app/shared/types/taskInput.interface';
 
 @Component({
   selector: 'board',
@@ -71,6 +72,11 @@ export class BoardComponent implements OnInit {
       .subscribe((column) => {
         this.boardService.addColumn(column);
       });
+    this.socketService
+      .listen<TaskInterface>(SocketEventsEnum.tasksCreateSuccess)
+      .subscribe((task) => {
+        this.boardService.addTask(task);
+      });
   }
 
   fetchData(): void {
@@ -95,5 +101,14 @@ export class BoardComponent implements OnInit {
 
   getTasksByColumn(columnId: string, tasks: TaskInterface[]): TaskInterface[] {
     return tasks.filter((task) => task.columnId === columnId);
+  }
+
+  createTask(title: string, columnId: string): void {
+    const taskInput: TaskInputInterface = {
+      title,
+      columnId,
+      boardId: this.boardId,
+    };
+    this.tasksService.createTask(taskInput);
   }
 }
