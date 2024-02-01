@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 
 import * as usersController from './controllers/users';
 import * as boardsController from './controllers/boards';
+import * as columnsController from './controllers/columns';
 import authMiddleware from './middlewares/auth';
 import { SocketEventsEnum } from './types/socketEvents.enum';
 import { secretOrPrivateKey } from './config';
@@ -39,6 +40,7 @@ app.get('/api/user', authMiddleware, usersController.currentUser);
 app.get('/api/boards', authMiddleware, boardsController.getBoards);
 app.post('/api/boards', authMiddleware, boardsController.createBoards);
 app.get('/api/boards/:id', authMiddleware, boardsController.getBoard);
+app.get('/api/boards/:id/columns', authMiddleware, columnsController.getColumns);
 
 io.use(async (socket: Socket, next) => {
   try {
