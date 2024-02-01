@@ -21,7 +21,12 @@ export class BoardService {
     this.socketService.emit(SocketEventsEnum.boardsLeave, { boardId });
   }
 
-  setColumns(columns: ColumnInterface[]):void {
-    this.columns$.next(columns)
+  setColumns(columns: ColumnInterface[]): void {
+    this.columns$.next(columns);
+  }
+
+  addColumn(column: ColumnInterface): void {
+    const updatedColumn = [...this.columns$.getValue(), column];
+    this.columns$.next(updatedColumn);
   }
 }
