@@ -12,6 +12,8 @@ import {
 import { TaskInterface } from 'src/app/shared/types/task.interface';
 import { ColumnInterface } from 'src/app/shared/types/column.interface';
 import { FormBuilder } from '@angular/forms';
+import { TasksService } from 'src/app/shared/services/tasks.service';
+import task from 'server/src/models/task';
 
 @Component({
   selector: 'task-modal',
@@ -36,7 +38,8 @@ export class TaskModalComponent implements OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private boardService: BoardService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private tasksService: TasksService
   ) {
     const taskId = this.route.snapshot.paramMap.get('taskId');
     const boardId = this.route.parent?.snapshot.paramMap.get('boardId');
@@ -59,8 +62,22 @@ export class TaskModalComponent implements OnDestroy {
       map(([task, columns]) => ({ task, columns }))
     );
     this.task$.pipe(takeUntil(this.unsubscribe$)).subscribe((task) => {
-      this.columnForm.patchValue({ columnId: task.columnId});
+      this.columnForm.patchValue({ columnId: task.columnId });
     });
+
+    combineLatest([this.task$, this.columnForm.get('columnId')!.valueChanges])
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(([task, columnId]) => {
+        if (task.columnId !== columnId) {
+          this.tasksService.updateTask(this.boardId, task.id, {
+            columnId: columnId!,
+          });
+        }
+      });
+
+    // this.columnForm.get('columnId')!.valueChanges.subscribe(columnId => {
+
+    // })
   }
 
   goToBoard(): void {
@@ -68,11 +85,15 @@ export class TaskModalComponent implements OnDestroy {
   }
 
   updateTaskName(taskName: string): void {
-    throw new Error('Method not implemented.');
+    this.tasksService.updateTask(this.boardId, this.taskId, {
+      title: taskName,
+    });
   }
 
   updateTaskDescription(taskDescription: string) {
-    throw new Error('Method not implemented.');
+    this.tasksService.updateTask(this.boardId, this.taskId, {
+      description: taskDescription,
+    });
   }
 
   ngOnDestroy(): void {

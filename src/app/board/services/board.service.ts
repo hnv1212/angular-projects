@@ -65,4 +65,19 @@ export class BoardService {
     });
     this.columns$.next(updatedColumns);
   }
+
+  updateTask(updatedTask: TaskInterface): void {
+    const updatedTasks = this.tasks$.getValue().map((task) => {
+      if (task.id === updatedTask.id) {
+        return {
+          ...task,
+          title: updatedTask.title,
+          description: updatedTask.description,
+          columnId: updatedTask.columnId,
+        };
+      }
+      return task;
+    });
+    this.tasks$.next(updatedTasks);
+  }
 }
