@@ -2,7 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { BoardsService } from 'src/app/shared/services/boards.service';
 import { BoardService } from '../services/board.service';
-import { Observable, Subject, combineLatest, filter, map, takeUntil } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  combineLatest,
+  filter,
+  map,
+  takeUntil,
+} from 'rxjs';
 import { BoardInterface } from 'src/app/shared/types/board.interface';
 import { SocketService } from 'src/app/shared/services/socket.service';
 import { SocketEventsEnum } from 'src/app/shared/types/socketEvents.enum';
@@ -24,7 +31,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     columns: ColumnInterface[];
     tasks: TaskInterface[];
   }>;
-  unsubscribe$ = new Subject<void>()
+  unsubscribe$ = new Subject<void>();
 
   constructor(
     private boardsService: BoardsService,
@@ -104,11 +111,18 @@ export class BoardComponent implements OnInit, OnDestroy {
       .subscribe((updatedColumn) => {
         this.boardService.updateColumn(updatedColumn);
       });
-      this.socketService
+    this.socketService
       .listen<TaskInterface>(SocketEventsEnum.tasksUpdateSuccess)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((updatedTask) => {
         this.boardService.updateTask(updatedTask);
+      });
+
+    this.socketService
+      .listen<string>(SocketEventsEnum.tasksDeleteSuccess)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((taskId) => {
+        this.boardService.deleteTask(taskId);
       });
   }
 
@@ -166,11 +180,11 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   openTask(taskId: string): void {
-    this.router.navigate(['boards', this.boardId, 'tasks', taskId])
+    this.router.navigate(['boards', this.boardId, 'tasks', taskId]);
   }
 
   ngOnDestroy(): void {
-    this.unsubscribe$.next()
-    this.unsubscribe$.complete()
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

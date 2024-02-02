@@ -80,4 +80,11 @@ export class BoardService {
     });
     this.tasks$.next(updatedTasks);
   }
+
+  deleteTask(taskId: string): void {
+    const updatedTasks = this.tasks$
+      .getValue()
+      .filter((task) => task.id !== taskId);
+    this.tasks$.next(updatedTasks);
+  }
 }
