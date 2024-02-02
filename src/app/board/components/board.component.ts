@@ -63,7 +63,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   initializerListeners(): void {
     this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
+      if (event instanceof NavigationStart && !event.url.includes('/boards/')) {
         this.boardService.leaveBoard(this.boardId);
       }
     });
@@ -157,6 +157,10 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.columnsService.updateColumn(this.boardId, columnId, {
       title: columnName,
     });
+  }
+
+  openTask(taskId: string): void {
+    this.router.navigate(['boards', this.boardId, 'tasks', taskId])
   }
 
   ngOnDestroy(): void {

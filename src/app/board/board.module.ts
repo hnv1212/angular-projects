@@ -8,12 +8,19 @@ import { ColumnsService } from '../shared/services/columns.service';
 import { TopbarModule } from '../shared/modules/topbar/topbar.module';
 import { InlineFormModule } from '../shared/modules/inlineForm/inlineForm.module';
 import { TasksService } from '../shared/services/tasks.service';
+import { TaskModalComponent } from './components/taskModal/taskModal.component';
 
 const routes: Routes = [
   {
     path: 'boards/:boardId',
     component: BoardComponent,
     canActivate: [AuthGuardService],
+    children: [
+      {
+        path: 'tasks/:taskId',
+        component: TaskModalComponent
+      }
+    ]
   },
 ];
 
@@ -24,7 +31,7 @@ const routes: Routes = [
     TopbarModule,
     InlineFormModule,
   ],
-  declarations: [BoardComponent],
+  declarations: [BoardComponent, TaskModalComponent],
   providers: [BoardService, ColumnsService, TasksService],
 })
 export class BoardModule {}
