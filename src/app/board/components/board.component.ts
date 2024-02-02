@@ -92,6 +92,11 @@ export class BoardComponent implements OnInit {
       .subscribe((columnId) => {
         this.boardService.deleteColumn(columnId);
       });
+    this.socketService
+      .listen<ColumnInterface>(SocketEventsEnum.columnsUpdateSuccess)
+      .subscribe((updatedColumn) => {
+        this.boardService.updateColumn(updatedColumn);
+      });
   }
 
   fetchData(): void {
@@ -139,5 +144,11 @@ export class BoardComponent implements OnInit {
 
   deleteColumn(columnId: string): void {
     this.columnsService.deleteColumn(this.boardId, columnId);
+  }
+
+  updateColumnName(columnName: string, columnId: string): void {
+    this.columnsService.updateColumn(this.boardId, columnId, {
+      title: columnName,
+    });
   }
 }

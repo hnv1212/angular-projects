@@ -55,4 +55,14 @@ export class BoardService {
       .filter((column) => column.id !== columnId);
     this.columns$.next(updatedColumns);
   }
+
+  updateColumn(updatedColumn: ColumnInterface): void {
+    const updatedColumns = this.columns$.getValue().map((column) => {
+      if (column.id === updatedColumn.id) {
+        return { ...column, title: updatedColumn.title };
+      }
+      return column;
+    });
+    this.columns$.next(updatedColumns);
+  }
 }

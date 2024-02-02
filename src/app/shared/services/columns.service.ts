@@ -26,4 +26,16 @@ export class ColumnsService {
       columnId,
     });
   }
+
+  updateColumn(
+    boardId: string,
+    columnId: string,
+    fields: { title: string }
+  ): void {
+    this.socketService.emit(SocketEventsEnum.columnsUpdate, {
+      boardId,
+      columnId,
+      fields,
+    });
+  }
 }
