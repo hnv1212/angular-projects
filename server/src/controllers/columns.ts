@@ -41,11 +41,39 @@ export const createColumn = async (
       boardId: data.title,
       userId: socket.user.id,
     });
-    const savedColumn = await newColumn.save()
-    io.to(data.boardId).emit(SocketEventsEnum.columnsCreateSuccess, savedColumn)
-
+    const savedColumn = await newColumn.save();
+    io.to(data.boardId).emit(
+      SocketEventsEnum.columnsCreateSuccess,
+      savedColumn
+    );
   } catch (err) {
     const errorMessage = getErrorMessage(err);
     socket.emit(SocketEventsEnum.columnsCreateFailure, errorMessage);
+  }
+};
+
+export const deleteColumn = async (
+  io: Server,
+  socket: Socket,
+  data: { boardId: string; columnId: string }
+) => {
+  try {
+    if (!socket.user) {
+      socket.emit(
+        SocketEventsEnum.columnsDeleteFailure,
+        'User is not authorized!'
+      );
+      return;
+    }
+
+    await ColumnModel.deleteOne({
+      _id: data.columnId,
+    });
+    io.to(data.boardId).emit(
+      SocketEventsEnum.columnsDeleteSuccess,
+      data.columnId
+    );
+  } catch (err) {
+    socket.emit(SocketEventsEnum.columnsDeleteFailure, getErrorMessage(err));
   }
 };
