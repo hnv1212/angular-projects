@@ -9,6 +9,5 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 @NgModule({
   declarations: [ShopComponent, ProductItemComponent, ProductDetailsComponent],
   imports: [CommonModule, ShopRoutingModule, SharedModule],
-  exports: [ShopComponent, ProductItemComponent],
 })
 export class ShopModule {}
