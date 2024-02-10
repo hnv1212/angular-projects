@@ -2,10 +2,7 @@
   <div class="row">
     <section class="col-3">
       <h5 class="text-warning ms-3">Sort</h5>
-      <select
-        class="form-select mb-4"
-        (change)="onSortSelected($event)"
-      >
+      <select class="form-select mb-4" (change)="onSortSelected($event)">
         <option *ngFor="let sort of sortOptions" [value]="sort.value">
           {{ sort.name }}
         </option>
@@ -16,7 +13,7 @@
         <li
           class="list-group-item"
           *ngFor="let brand of brands"
-          [class.active]="brand.id === this.brandIdSelected"
+          [class.active]="brand.id === this.shopParams.brandId"
           [value]="brand.id"
           (click)="onBrandSelected(brand.id)"
         >
@@ -28,7 +25,7 @@
         <li
           class="list-group-item"
           *ngFor="let type of types"
-          [class.active]="type.id === this.typeIdSelected"
+          [class.active]="type.id === this.shopParams.typeId"
           [value]="type.id"
           (click)="onBrandSelected(type.id)"
         >
@@ -39,7 +36,13 @@
 
     <section class="col-9">
       <div class="d-flex justify-content-between align-items-center pb-2">
-        <div class="d-flex mt-2"></div>
+        <div class="d-flex mt-2">
+          <app-paging-header
+            [totalCount]="totalCount"
+            [pageSize]="this.shopParams.pageSize"
+            [pageNumber]="this.shopParams.pageNumber"
+          ></app-paging-header>
+        </div>
       </div>
 
       <div class="row row-cols-3 g-3 mb-4">
@@ -48,7 +51,13 @@
         </div>
       </div>
 
-      <div class="d-flex justify-content-center"></div>
+      <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
+        <app-pager
+          [pageSize]="shopParams.pageSize"
+          [totalCount]="totalCount"
+          (pageChanged)="onPageChanged($event)"
+        ></app-pager>
+      </div>
     </section>
   </div>
 </div>
