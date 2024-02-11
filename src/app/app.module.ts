@@ -24,7 +24,8 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor
+      useClass: ErrorInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]
