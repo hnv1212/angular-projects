@@ -9,20 +9,23 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    data: { breadcrumb: 'home'}
   },
   {
     path: 'test-error',
     component: TestErrorComponent,
+    data: { breadcrumb: 'test errors'}
   },
-  { path: 'not-found', component: NotFoundComponent },
-  { path: 'server-error', component: ServerErrorComponent },
+  { path: 'not-found', component: NotFoundComponent, data: { breadcrumb: 'notfound errors'} },
+  { path: 'server-error', component: ServerErrorComponent, data: { breadcrumb: 'server errors'} },
   {
     path: 'shop',
     loadChildren: () => import('./shop/shop.module').then((m) => m.ShopModule),
+    data: { breadcrumb: 'shop'}
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'not-found',
     pathMatch: 'full',
   },
 ];
