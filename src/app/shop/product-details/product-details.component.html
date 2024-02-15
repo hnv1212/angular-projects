@@ -1,7 +1,11 @@
 <div class="container">
   <div class="row" *ngIf="product">
     <div class="col-6">
-      <img src="{{product.pictureUrl}}" alt="{{product.name}}" class="w-100" />
+      <img
+        src="{{ product.pictureUrl }}"
+        alt="{{ product.name }}"
+        class="w-100"
+      />
     </div>
     <div class="col-6 mt-5">
       <h2>{{ product.name }}</h2>
@@ -14,19 +18,21 @@
         <i
           class="fa fa-minus-circle text-warning me-2"
           style="cursor: pointer; font-size: 2em"
+          (click)="decrementQuantity()"
         ></i>
         <span class="font-weight-bold" style="font-size: 1.5em">
-          quantity
+          {{ quantity }}
         </span>
         <i
           class="fa fa-plus-circle text-warning ms-2"
           style="cursor: pointer; font-size: 2em"
+          (click)="incrementQuantity()"
         ></i>
-        <button class="btn btn-outline-primary ms-4">buttonText</button>
+        <button class="btn btn-outline-primary ms-4" (click)="addItemToCart()">buttonText</button>
       </div>
       <div class="row mt-4">
         <h4>Description</h4>
-        <p>{{product.description}}</p>
+        <p>{{ product.description }}</p>
       </div>
     </div>
   </div>
